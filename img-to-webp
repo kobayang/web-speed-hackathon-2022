@@ -1,0 +1,2 @@
+for file in public/assets/images/*.jpg; do cwebp -q 50 "$file" -o "${file%.*}.webp"; done
+for file in public/assets/images/*/**.jpg; do cwebp -q 50 "$file" -o "${file%.*}.webp"; done
