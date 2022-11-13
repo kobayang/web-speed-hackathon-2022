@@ -12,6 +12,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
+import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
 
 import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
@@ -66,7 +67,7 @@ export const RaceCard = () => {
           {data.entries.map((entry) => (
             <PlayerPictureList.Item
               key={entry.id}
-              image={entry.player.image}
+              image={convertJpgToWebp(entry.player.image)}
               name={entry.player.name}
               number={entry.number}
             />
