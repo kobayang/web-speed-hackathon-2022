@@ -1,5 +1,5 @@
-import difference from "lodash/difference";
-import slice from "lodash/slice";
+import difference from "lodash-es/difference";
+import slice from "lodash-es/slice";
 import React, {
   lazy,
   Suspense,
