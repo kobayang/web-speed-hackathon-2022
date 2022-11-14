@@ -171,7 +171,7 @@ export const Top = () => {
     <>
       <main>
         <Container>
-          <HeroImage url={heroImageUrl} />
+          {heroImageUrl && <HeroImage url={heroImageUrl} />}
           <Spacer mt={Space * 2} />
           {userData && (
             <Stack
