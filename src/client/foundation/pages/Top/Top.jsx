@@ -14,6 +14,7 @@ import styled from "styled-components";
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
+import { Footer } from "../../components/navs/Footer";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
@@ -155,38 +156,53 @@ export const Top = () => {
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);
 
+  const loading =
+    !heroImageUrl || todayRacesToShow.length !== todayRaces.length;
+
   return (
-    <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+    <>
+      <main>
+        <Container>
+          {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
 
-      <Spacer mt={Space * 2} />
-      {userData && (
-        <Stack horizontal alignItems="center" justifyContent="space-between">
-          <div>
-            <p>ポイント残高: {userData.balance}pt</p>
-            <p>払戻金: {userData.payoff}Yeen</p>
-          </div>
+          <Spacer mt={Space * 2} />
+          {userData && (
+            <Stack
+              horizontal
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <div>
+                <p>ポイント残高: {userData.balance}pt</p>
+                <p>払戻金: {userData.payoff}Yeen</p>
+              </div>
 
-          <ChargeButton onClick={handleClickChargeButton}>
-            チャージ
-          </ChargeButton>
-        </Stack>
-      )}
+              <ChargeButton onClick={handleClickChargeButton}>
+                チャージ
+              </ChargeButton>
+            </Stack>
+          )}
 
-      <Spacer mt={Space * 2} />
-      <section>
-        <Heading as="h1">本日のレース</Heading>
-        {todayRacesToShow.length > 0 && (
-          <RecentRaceList>
-            {todayRacesToShow.map((race) => (
-              <RecentRaceList.Item key={race.id} race={race} />
-            ))}
-          </RecentRaceList>
-        )}
-      </section>
-      <Suspense fallback={<div></div>}>
-        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
-      </Suspense>
-    </Container>
+          <Spacer mt={Space * 2} />
+          <section>
+            <Heading as="h1">本日のレース</Heading>
+            {todayRacesToShow.length > 0 && (
+              <RecentRaceList>
+                {todayRacesToShow.map((race) => (
+                  <RecentRaceList.Item key={race.id} race={race} />
+                ))}
+              </RecentRaceList>
+            )}
+          </section>
+          <Suspense fallback={<div></div>}>
+            <ChargeDialog
+              ref={chargeDialogRef}
+              onComplete={handleCompleteCharge}
+            />
+          </Suspense>
+        </Container>
+      </main>
+      {!loading && <Footer />}
+    </>
   );
 };

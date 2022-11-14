@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 /**
@@ -13,16 +13,17 @@ import styled from "styled-components";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height: initialHeight, src, width }) => {
+export const TrimmedImage = ({ calc, height: initialHeight, src, width }) => {
   const imgRef = useRef(null);
-  const [height, setHeight] = useState(undefined);
+  const [height, setHeight] = useState(calc ? undefined : initialHeight);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (!calc) return;
     const imgElm = imgRef.current;
     if (!imgElm) return;
     const rectWidth = imgElm.getBoundingClientRect().width;
     setHeight(initialHeight * (rectWidth / width));
-  }, [initialHeight, width]);
+  }, [initialHeight, width, calc]);
 
   return <Img ref={imgRef} src={src} style={{ height, width }} />;
 };
