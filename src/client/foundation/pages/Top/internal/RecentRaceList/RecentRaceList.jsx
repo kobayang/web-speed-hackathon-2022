@@ -19,9 +19,10 @@ export const RecentRaceList = ({ children }) => {
 };
 
 const ItemWrapper = styled.li`
+  display: ${({ $visible }) => (!$visible ? "none" : "block")};
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
-  opacity: ${({ $opacity, $visible }) => (!$visible ? "0" : $opacity)};
+  opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
 `;
 
