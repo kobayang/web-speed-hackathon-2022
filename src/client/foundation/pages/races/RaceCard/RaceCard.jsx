@@ -56,6 +56,7 @@ export const RaceCard = () => {
             <LiveBadge>Live</LiveBadge>
             <Spacer mt={Space * 2} />
             <TrimmedImage
+              calc={true}
               height={225}
               src={convertJpgToWebp(data.image)}
               width={400}
