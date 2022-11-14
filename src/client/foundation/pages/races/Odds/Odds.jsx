@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -12,7 +11,7 @@ import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
-import { formatTime } from "../../../utils/DateUtils";
+import { formatTime, isBefore } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
 import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
 
@@ -67,7 +66,7 @@ export const Odds = () => {
     );
   }
 
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = isBefore(data.closeAt, new Date());
 
   return (
     <>

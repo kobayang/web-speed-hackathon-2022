@@ -1,5 +1,4 @@
 import _ from "lodash";
-import moment from "moment-timezone";
 import React, {
   lazy,
   Suspense,
@@ -106,9 +105,17 @@ function useHeroImage(todayRaces) {
   return imageUrl;
 }
 
+const getYYYYMMDD = (d) => {
+  const date = new Date(d);
+  const yyyy = `${date.getFullYear()}`.padStart(4, "0");
+  const mm = `${date.getMonth() + 1}`.padStart(2, "0");
+  const dd = `${date.getDate()}`.padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+};
+
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = getYYYYMMDD(new Date()) } = useParams();
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -147,7 +154,7 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
+              new Date(a.startAt).getTime - new Date(b.startAt).getTime(),
           )
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(race.startAt, date),
