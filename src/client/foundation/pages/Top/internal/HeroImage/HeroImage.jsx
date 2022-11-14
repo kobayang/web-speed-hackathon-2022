@@ -27,8 +27,8 @@ export const HeroImage = ({ url }) => {
     width: 1024,
   });
   return (
-    <Wrapper ref={ref} style={{ height, width }}>
-      {url && <Image alt="" src={url} style={{ height, width }} />}
+    <Wrapper ref={ref} style={{ height, width: "100%" }}>
+      {url && <Image alt="" src={url} style={{ height, width: "100%" }} />}
     </Wrapper>
   );
 };
