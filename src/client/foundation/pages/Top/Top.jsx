@@ -1,4 +1,5 @@
-import _ from "lodash";
+import difference from "lodash/difference";
+import slice from "lodash/slice";
 import React, {
   lazy,
   Suspense,
@@ -39,7 +40,7 @@ function useTodayRacesWithAnimation(races) {
 
   useEffect(() => {
     const isRacesUpdate =
-      _.difference(
+      difference(
         races.map((e) => e.id),
         prevRaces.current.map((e) => e.id),
       ).length !== 0;
@@ -70,7 +71,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
