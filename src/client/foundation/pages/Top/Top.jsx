@@ -171,8 +171,7 @@ export const Top = () => {
     <>
       <main>
         <Container>
-          {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
-
+          <HeroImage url={heroImageUrl} />
           <Spacer mt={Space * 2} />
           {userData && (
             <Stack
@@ -194,10 +193,14 @@ export const Top = () => {
           <Spacer mt={Space * 2} />
           <section>
             <Heading as="h1">本日のレース</Heading>
-            {todayRacesToShow.length > 0 && (
+            {todayRaces.length > 0 && (
               <RecentRaceList>
-                {todayRacesToShow.map((race) => (
-                  <RecentRaceList.Item key={race.id} race={race} />
+                {todayRaces.map((race) => (
+                  <RecentRaceList.Item
+                    key={race.id}
+                    race={race}
+                    visible={todayRacesToShow.includes(race)}
+                  />
                 ))}
               </RecentRaceList>
             )}

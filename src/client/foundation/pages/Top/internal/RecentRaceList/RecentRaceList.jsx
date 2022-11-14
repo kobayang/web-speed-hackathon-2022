@@ -21,7 +21,7 @@ export const RecentRaceList = ({ children }) => {
 const ItemWrapper = styled.li`
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
-  opacity: ${({ $opacity }) => $opacity};
+  opacity: ${({ $opacity, $visible }) => (!$visible ? "0" : $opacity)};
   padding: ${Space * 3}px;
 `;
 
@@ -47,7 +47,7 @@ const RaceTitle = styled.h2`
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race }) => {
+const Item = ({ race, visible }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
   // 締切はリアルタイムで表示したい
@@ -83,7 +83,7 @@ const Item = ({ race }) => {
   }, [race.id, startAnimation, abortAnimation, resetAnimation]);
 
   return (
-    <ItemWrapper $opacity={opacity}>
+    <ItemWrapper $opacity={opacity} $visible={visible}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>

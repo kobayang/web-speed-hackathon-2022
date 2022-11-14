@@ -1,6 +1,25 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
+export const useImageSize = ({ calc, height: initialHeight, width }) => {
+  const ref = useRef(null);
+  const [height, setHeight] = useState(calc ? undefined : initialHeight);
+
+  useLayoutEffect(() => {
+    if (!calc) return;
+    const imgElm = ref.current;
+    if (!imgElm) return;
+    const rectWidth = imgElm.getBoundingClientRect().width;
+    setHeight(initialHeight * (rectWidth / width));
+  }, [initialHeight, width, calc]);
+
+  return {
+    height,
+    ref,
+    width,
+  };
+};
+
 /**
  * アスペクト比を維持したまま、要素のコンテンツボックス全体を埋めるように拡大縮小したサイズを返す
  */
@@ -13,19 +32,14 @@ import styled from "styled-components";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ calc, height: initialHeight, src, width }) => {
-  const imgRef = useRef(null);
-  const [height, setHeight] = useState(calc ? undefined : initialHeight);
-
-  useLayoutEffect(() => {
-    if (!calc) return;
-    const imgElm = imgRef.current;
-    if (!imgElm) return;
-    const rectWidth = imgElm.getBoundingClientRect().width;
-    setHeight(initialHeight * (rectWidth / width));
-  }, [initialHeight, width, calc]);
-
-  return <Img ref={imgRef} src={src} style={{ height, width }} />;
+export const TrimmedImage = ({ calc, height: _height, src, width: _width }) => {
+  const { height, ref, width } = useImageSize({
+    calc,
+    height: _height,
+    src,
+    width: _width,
+  });
+  return <Img ref={ref} src={src} style={{ height, width }} />;
 };
 
 const Img = styled.img`
