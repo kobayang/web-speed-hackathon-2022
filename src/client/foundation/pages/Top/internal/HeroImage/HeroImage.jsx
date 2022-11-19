@@ -9,7 +9,7 @@ const Image = styled.img`
 /**
  * @typedef Props
  * @type {object}
- * @property {string} url
+ * @property {string | null} url
  */
 
 /** @type {React.VFC<Props>} */

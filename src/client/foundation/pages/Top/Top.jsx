@@ -1,5 +1,5 @@
-import _ from "lodash";
-import moment from "moment-timezone";
+import difference from "lodash-es/difference";
+import slice from "lodash-es/slice";
 import React, {
   lazy,
   Suspense,
@@ -40,7 +40,7 @@ function useTodayRacesWithAnimation(races) {
 
   useEffect(() => {
     const isRacesUpdate =
-      _.difference(
+      difference(
         races.map((e) => e.id),
         prevRaces.current.map((e) => e.id),
       ).length !== 0;
@@ -71,7 +71,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
@@ -106,9 +106,17 @@ function useHeroImage(todayRaces) {
   return imageUrl;
 }
 
+const getYYYYMMDD = (d) => {
+  const date = new Date(d);
+  const yyyy = `${date.getFullYear()}`.padStart(4, "0");
+  const mm = `${date.getMonth() + 1}`.padStart(2, "0");
+  const dd = `${date.getDate()}`.padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+};
+
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = getYYYYMMDD(new Date()) } = useParams();
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -147,7 +155,7 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
+              new Date(a.startAt).getTime - new Date(b.startAt).getTime(),
           )
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(race.startAt, date),
@@ -163,8 +171,7 @@ export const Top = () => {
     <>
       <main>
         <Container>
-          {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
-
+          {heroImageUrl && <HeroImage url={heroImageUrl} />}
           <Spacer mt={Space * 2} />
           {userData && (
             <Stack
@@ -186,10 +193,14 @@ export const Top = () => {
           <Spacer mt={Space * 2} />
           <section>
             <Heading as="h1">本日のレース</Heading>
-            {todayRacesToShow.length > 0 && (
+            {todayRaces.length > 0 && (
               <RecentRaceList>
-                {todayRacesToShow.map((race) => (
-                  <RecentRaceList.Item key={race.id} race={race} />
+                {todayRaces.map((race) => (
+                  <RecentRaceList.Item
+                    key={race.id}
+                    race={race}
+                    visible={todayRacesToShow.includes(race)}
+                  />
                 ))}
               </RecentRaceList>
             )}
