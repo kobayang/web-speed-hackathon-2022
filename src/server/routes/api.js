@@ -4,7 +4,6 @@ import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
-import { initialize } from "../typeorm/initialize.js";
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
@@ -166,7 +165,11 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.post("/initialize", async (_req, res) => {
-    await initialize();
+    const connetion = await createConnection();
+    // Clear BettingTicket
+    await connetion.createQueryRunner().manager.clear(BettingTicket);
+    // Clear User
+    await connetion.createQueryRunner().manager.clear(User);
     res.status(204).send();
   });
 };
