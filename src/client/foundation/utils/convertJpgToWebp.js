@@ -1,3 +1,6 @@
+import { ASSRT_URL_HOST } from "./constants";
+
 export const convertJpgToWebp = (path) => {
-  return `${path}`.replace(".jpg", ".webp");
+  const pathByCdn = path.replace("/assets", "");
+  return `${ASSRT_URL_HOST}${pathByCdn}`.replace(".jpg", ".webp");
 };
