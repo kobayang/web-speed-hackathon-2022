@@ -164,14 +164,15 @@ export const Top = () => {
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);
 
-  const loading =
-    !heroImageUrl || todayRacesToShow.length !== todayRaces.length;
+  const isAllRacesDisplayed = todayRacesToShow.length !== todayRaces.length;
+
+  if (!heroImageUrl) return null;
 
   return (
     <>
       <main>
         <Container>
-          {heroImageUrl && <HeroImage url={heroImageUrl} />}
+          <HeroImage url={heroImageUrl} />
           <Spacer mt={Space * 2} />
           {userData && (
             <Stack
@@ -213,7 +214,7 @@ export const Top = () => {
           </Suspense>
         </Container>
       </main>
-      {!loading && <Footer />}
+      {!isAllRacesDisplayed && <Footer />}
     </>
   );
 };
