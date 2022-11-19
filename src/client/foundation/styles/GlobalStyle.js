@@ -29,13 +29,13 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "Senobi-Gothic";
     font-weight: normal;
     font-display: block;
-    src: ${`url("${ASSRT_URL_HOST}/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Regular.ttf") format("truetype")`};
+    src: ${`url("${ASSRT_URL_HOST}/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Regular.ttf") format("truetype")`};
   }
 
   @font-face {
     font-family: "Senobi-Gothic";
     font-weight: bold;
     font-display: block;
-    src: ${`url("${ASSRT_URL_HOST}/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold.ttf") format("truetype")`};
+    src: ${`url("${ASSRT_URL_HOST}/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold.ttf") format("truetype")`};
   }
 `;
