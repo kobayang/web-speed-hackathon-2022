@@ -23,9 +23,7 @@ const server = fastify({
       },
 });
 server.register(fastifySensible);
-server.register(cors, {
-  credentials: true,
-});
+server.register(cors, {});
 
 server.addHook("onRequest", async (req, res) => {
   const repo = (await createConnection()).getRepository(User);
