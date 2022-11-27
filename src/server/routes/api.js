@@ -82,7 +82,9 @@ export const apiRoute = async (fastify) => {
     const races = await repo.find({
       where,
     });
-
+    races.sort(
+      (a, b) => new Date(a.startAt).getTime - new Date(b.startAt).getTime(),
+    );
     res.send({ races });
   });
 
@@ -114,7 +116,6 @@ export const apiRoute = async (fastify) => {
     res.send(race);
   });
 
-
   fastify.get("/races/:raceId/result", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
@@ -126,7 +127,6 @@ export const apiRoute = async (fastify) => {
 
     res.send(race);
   });
-
 
   fastify.get("/races/:raceId/odds", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
